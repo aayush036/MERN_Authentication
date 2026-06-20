@@ -42,3 +42,27 @@ export const register = async (req,res)=>{
     }
 }
 
+export const login = async(req,res)=>{
+    const {email,password} = req.body;
+    if(!email||!password){
+        return res.json({success:false,message:'All fields are required'});
+    }
+    try{
+
+        const user = await userModel.findOne({email});
+        if(!user){
+            return res.json({success:false,message:"user does not exit"});
+        }
+        const token  = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'3d'});
+        res.cookie('token',token,{
+            httpOnly:true,
+            secure:process.env.NODE_ENV ==='production',
+            sameSite:process.env.NODE_ENV ==='production'?'none':'strict',
+            maxAge:1*24*60*60*1000 // 1 day
+        });
+        return res.json({success:true,message:"login successfully"});
+    }catch(error){
+        return res.json({success:false,message:error.message});
+    }
+}
+
