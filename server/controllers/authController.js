@@ -53,6 +53,10 @@ export const login = async(req,res)=>{
         if(!user){
             return res.json({success:false,message:"user does not exit"});
         }
+        const isMatch = await bcrypt.compare(password,user.password);
+        if(!isMatch){
+            res.json({success:false,message:"invalide password or userame"});
+        }
         const token  = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'3d'});
         res.cookie('token',token,{
             httpOnly:true,
