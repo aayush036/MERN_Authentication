@@ -114,3 +114,32 @@ export const sendVerifyOtp = async(req,res)=>{
     }
 }
 
+export const verifyAccount = async(req,res)=>{
+    const { otp } = req.body;      // otp still comes from client
+const userId = req.user.id;    // userId comes from JWT
+
+    if(!userId || !otp){
+        return res.json({success:false,message:"All fields are required"});
+    }
+    try{
+        const user = await userModel.findById(userId);
+        if(!user){
+            return res.json({success:false,message:"user do not exist"}); 
+        }
+        if(user.verifyOtp === '' || user.verifyOtp !== otp){
+            return res.json({success:false,message:"invalide otp"});
+        }
+        if(user.verifyOtpExpireAt < Date.now()){
+            return res.json({success:false,message:"otp expired"});
+        }
+        user.isAccountVerified = true;
+        user.verifyotp = '';
+        user.verifyOtpExpireAt = 0;
+        await user.save();
+        return res.json({success:true,message:"account verified successfully"});
+
+    }catch(error){
+        res.json({success:false,message:error.message});
+    }
+}
+
