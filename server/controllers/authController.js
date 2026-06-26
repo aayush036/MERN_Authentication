@@ -84,3 +84,33 @@ export const logout = async(req,res)=>{
     }
 }
 
+// sedn verification otp to user email
+export const sendVerifyOtp = async(req,res)=>{
+    try{
+         const userId = req.user.id;   // ✅ comes from middleware
+         const user = await userModel.findById(userId);
+         if(user.isAccountVerified){
+            return res.json({success:false,message:"account already verified"});
+         }
+         const otp = String(Math.floor(Math.random()*9000+1000));
+         user.verifyOtp  = otp;
+         user.verifyOtpExpireAt = Date.now()+ 10*60*1000;
+         await user.save();
+
+         const mailOptions = {
+            from: process.env.SENDER_EMAIL,
+            to: user.email,
+            subject:"Account verification OTP",
+           // text:`Your otp is ${otp}. verify your account using this otp`,
+            html:EMAIL_VERIFY_TEMPLATE.replace("{{otp}},",otp).replace("{{email}}",user.email)
+         }
+         await transporter.sendMail(mailOptions);
+         return res.json({success:true,message:"otp sent to given email"});
+
+
+    }
+    catch(error){
+        res.json({success:false,message:error.message});
+    }
+}
+
