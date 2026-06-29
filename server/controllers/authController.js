@@ -151,3 +151,33 @@ export const isAuthenticated = async (req,res)=>{
     }
 }
 
+export const sendResetOtp = async(req,res)=>{
+    const {email} = req.body;
+    if(!email){
+        return res.json({success:false,message:'Email is required'});
+    }
+    try{
+        const user = await userModel.findOne({email});
+        if(!user){
+            return res.json({success:false,message:"user not found"});
+        }
+        const otp = String(Math.floor(Math.random()*900000+100000));
+         user.resetOtp  = otp;
+         user.resetOtpExpireAt = Date.now()+ 60*60*1000;
+         await user.save();
+
+         const mailOptions = {
+            from: process.env.SENDER_EMAIL,
+            to: user.email,
+            subject:"Account verification OTP",
+           // text:`Your otp for reseting your password is  ${otp}. Regenerate your password using this`
+            html:PASSWORD_RESET_TEMPLATE.replace("{{otp}}",otp).replace("{{email}}",user.email)
+         }
+         await transporter.sendMail(mailOptions);
+        return res.json({success:true,message:"otp sent to your email"});
+    }catch(error){
+      return res.json({success:false,message:error.message});
+    }
+}
+
+
