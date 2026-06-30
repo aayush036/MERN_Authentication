@@ -181,3 +181,35 @@ export const sendResetOtp = async(req,res)=>{
 }
 
 
+// to reset the user password 
+
+export const resetPassword = async(req,res)=>{
+    const {email,otp,newPassword} = req.body;
+    if(!email || !otp || !newPassword){
+        return res.json({success:false,message:'All fieds are required'});
+    }
+    try{
+      const user = await userModel.findOne({email});
+      if(!user){
+        return res.json({success:false,message:"user not found"});
+      }
+      if(user.resetOtp === "" || user.resetOtp !== otp){
+        return res.json({success:false,message:"Invalid Otp"});
+      }
+      if(user.resetOtpExpireAt < Date.now()){
+        return res.json({success:false,message:"otp expired"});
+      }
+      const hashedPassword = await bcrypt.hash(newPassword,10);
+      user.password = hashedPassword;
+      user.resetOtp = '';
+      user.resetOtpExpireAt=0;
+      await user.save();
+
+      return res.json({success:true,message:"your password has been reset successfully"});
+
+
+    }
+    catch(error){
+        return res.json({success:false,message:error.message})
+    }
+}
