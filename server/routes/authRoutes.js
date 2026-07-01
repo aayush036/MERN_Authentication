@@ -9,4 +9,5 @@ authRouter.post('/logout',logout);
 authRouter.post('/send-verify-otp',userAuth,sendVerifyOtp)
 authRouter.post('/verify-account',userAuth,verifyAccount);
 authRouter.get('/is-auth',userAuth,isAuthenticated);
+authRouter.post('/send-reset-otp',sendResetOtp);
 export default authRouter;
