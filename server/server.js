@@ -8,7 +8,7 @@ import userRouter from './routes/userRoutes.js';
 import path from 'path';
 const app = express();
 const allowedOrigins = ['http://localhost:5173']
-const port = 4000;
+const port = process.env.PORT || 4000;
 connectDB();
 app.use(express.json());
 app.use(cookieParser());
