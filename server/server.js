@@ -12,7 +12,7 @@ const port = process.env.PORT || 4000;
 connectDB();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors())
+app.use(cors({origin: allowedOrigins, credentials:true}))
 
 const __dirname = path.resolve();
 
