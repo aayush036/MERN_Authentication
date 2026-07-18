@@ -1,3 +1,5 @@
+// here we will write the funciton that will connecte us to mongodb database
+
 import mongoose from "mongoose";
 
 
