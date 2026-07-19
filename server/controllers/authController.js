@@ -24,7 +24,7 @@ export const register = async (req,res)=>{
             httpOnly:true,
             secure:process.env.NODE_ENV ==='production',
             sameSite:process.env.NODE_ENV ==='production'?'none':'strict',
-            maxAge:1*24*60*60*1000 // 1 day
+            maxAge:3*24*60*60*1000 // 3 days
         }); 
         // sending welcome email
         const mailOptions = {
