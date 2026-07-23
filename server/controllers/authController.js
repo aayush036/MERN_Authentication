@@ -94,7 +94,7 @@ export const sendVerifyOtp = async(req,res)=>{
          }
          const otp = String(Math.floor(Math.random()*900000+100000));
          user.verifyOtp  = otp;
-         user.verifyOtpExpireAt = Date.now()+ 10*60*1000;
+         user.verifyOtpExpireAt = Date.now()+ 24*60*60*1000;
          await user.save();
 
          const mailOptions = {
