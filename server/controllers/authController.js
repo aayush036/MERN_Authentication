@@ -9,7 +9,7 @@ import { EMAIL_VERIFY_TEMPLATE,PASSWORD_RESET_TEMPLATE } from '../config/emailTe
 export const register = async (req,res)=>{
     const {name,email,password}  = req.body;
     if(!name || !email || !password){
-        return res.json({success:false,message:'Please fill all the fields'});
+        return res.json({success:false,message:'All fields are required'});
     }
     try{
         const existingUser  = await userModel.findOne({email});
