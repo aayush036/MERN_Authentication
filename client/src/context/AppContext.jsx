@@ -31,7 +31,7 @@ export const AppContextProvider  = (props)=>{
         }
     }
     const value = {
-     backendUrl
+     backendUrl,isLoggedin,setIsLoggedin,userData,setUserData,getUserData
     }
     return (  
         <AppContent.Provider value={value}>
