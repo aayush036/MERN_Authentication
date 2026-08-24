@@ -12,6 +12,17 @@ const Navbar = () => {
 
   const navigate = useNavigate()
   const {userData,backendUrl, setUserData, setIsLoggedin} = useContext(AppContent);
+  const logout = async()=>{
+    try{
+        axios.defaults.withCredentials = true;
+        const {data} = await axios.post(backendUrl+'/api/auth/logout');
+        data.success && setIsLoggedin(false);
+        data.success && setUserData(false);
+        navigate('/')
+    }catch(error){
+       toast.error(error.message);
+    }
+  }
   return (
     <div className='w-full flex justify-between item-center p-3 sm:p-5 sm:px-20 absolute top-0'>
         <img src={assets.logo} alt="" className='w-28 sm:w-32 '/>
