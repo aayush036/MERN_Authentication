@@ -11,7 +11,7 @@ const Login = () => {
 
   const {backendUrl,setIsLoggedin,getUserData} = useContext(AppContent)
   
-  const [state,setState] = useState("Login");
+  const [state,setState] = useState("Sign up");
   const [name,setName] = useState('');
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('')
