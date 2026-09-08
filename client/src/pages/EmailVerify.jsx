@@ -49,6 +49,9 @@ const EmailVerify = () => {
   }
 
 
+   useEffect(()=>{
+    userData && userData.isAccountVerified && navigate('/')
+   },[isLoggedin,userData]);
 
 
   return (
