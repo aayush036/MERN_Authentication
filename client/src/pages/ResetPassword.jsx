@@ -103,6 +103,17 @@ const ResetPassword = () => {
     </form>
   }
  
+{isOtpSubmitted && isEmailSent &&
+      <form onSubmit={submitNewPassword}  className='bg-slate-900 p-8 rounded-lg shadow-lg w-96 text-sm' >
+      <h1 className='text-white text-2xl font-semibold text-center mb-4'>New  Password </h1>
+      <p className='text-center mb-6 text-indigo-300'>Enter your registered new Password</p>
+      <div className='mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]'>
+        <img src={assets.lock_icon} alt="" className='w-3 h-3'/>
+        <input  type="password" placeholder='New PassWord' className='bg-trasnparent text-white outline-none' value={newPassword} onChange={e=>setnewPassword(e.target.value) }required />
+      </div>
+     <button  className='w-full py-3 bg-gradient-to-r from-indigo-500 to bg-indigo-900 text-white rounded-full hover:cursor-pointer'>Submit</button>
+     </form>
+}
      </div>
   )
 }
