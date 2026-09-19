@@ -99,7 +99,7 @@ const ResetPassword = () => {
         <input type='text' maxLength='1' key = {index} required className='w-12 h-12 bg-[#333A5c] text-white text-center text-xl rounded-md' ref={e=>inputRefs.current[index]=e} onInput={(e)=> handleInput(e,index)} onKeyDown={(e)=>handleKeyDown(e,index)}/>
        ))}
       </div>
-      <button  className='w-full py-3 bg-gradient-to-r from-indigo-500 to bg-indigo-900 text-white rounded-full'>Submit</button>
+      <button  className='w-full py-2.5 bg-gradient-to-r from-indigo-500 to bg-indigo-900 text-white rounded-full'>Submit</button>
     </form>
   }
  
